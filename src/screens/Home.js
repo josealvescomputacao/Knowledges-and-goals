@@ -10,7 +10,7 @@ class ScreensHome extends Component{
             '/images/goalCreated.jpg', 
             '/images/filterGoal.jpg',
             '/images/updateMainGoalOrCreateAnotherSubGoal.jpg',
-            '/images/updateSubgoal.jpg',
+            '/images/updateSubGoal.jpg',
             '/images/branches.jpg', 
             '/images/createTopic.jpg', 
             '/images/topics.jpg', 
