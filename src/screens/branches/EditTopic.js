@@ -1,141 +1,15 @@
-import React, {Component, Fragment} from 'react'
-import {Redirect, Link} from 'react-router-dom'
-import {Segment, Form, Input, TextArea, Button, Icon, Item, Grid, Popup, List, Image, Dimmer, Loader, Label} from 'semantic-ui-react'
+import React, { Component, Fragment } from 'react'
+import { Redirect, Link } from 'react-router-dom'
+import { Segment, Form, Input, TextArea, Button, Icon, Item, Grid, Popup, List, Image, Dimmer, Loader, Label } from 'semantic-ui-react'
 import { notification } from 'antd'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import ActionCreator from '../../redux/actionCreators'
 
 import moment from 'moment'
 
 import { Calendar } from './elements/Calendar'
 
-import styled from 'styled-components'
-
-const RenderStyle = styled.div`
-    @media (min-width: 320px)  {    
-        #date{
-            position:relative
-        }
-    }
-    @media (max-width: 512px)  {   
-        #calendar{
-            margin-top: 20px
-        }
-    }
-    @media (min-width: 992px){ 
-        #date{
-            position: absolute
-        }
-    }
-
-    #topicName{
-        position: absolute
-        box-shadow: 8px 14px 16px 0px
-        border-radius: 5px 
-        background: #F3F4DF
-        transition: all 0.5s ease-in-out
-        top:-5px
-    }
-    #topicName: focus{
-        box-shadow: 0 0 0 0
-        top:0px
-    }
-    #branchName{
-        position: absolute
-        box-shadow: 8px 14px 16px 0px
-        border-radius: 5px 
-        background: #F3F4DF
-        transition: all 0.5s ease-in-out
-        top:-5px
-    }
-    #branchName: focus{
-        box-shadow: 0 0 0 0
-        top:0px
-    }
-
-    #titleName{ 
-        box-shadow: 5px 10px 10px 0px
-        border-radius: 5px 
-        margin-bottom: 20px
-        transition: all 0.5s ease-in-out
-        position: absolute
-        top:-45px
-    }
-
-    #titleName:focus{
-        box-shadow: 0 0 0 0
-        top:-40px
-    }
-
-    #contentName{ 
-        position: absolute
-        box-shadow: 5px 10px 10px 0px
-        border-radius: 5px 
-        margin-bottom: 20px
-        transition: all 0.5s ease-in-out
-        top:-40px
-    }
-    #contentName:focus{
-        box-shadow: 0 0 0 0
-        top:-35px
-    }
-
-    .inputFile{
-        width: 0.1px;
-        height: 0.1px;
-        opacity: 0;
-        overflow: hidden;
-        margin-left: -15px
-        transition: all 0.5s ease-in-out
-        position: absolute;
-        marginBottom: 20px;
-        z-index: -1;
-    }
-    .inputFile:hover{
-        box-shadow: 0 0 0 0
-    }
-
-    .boxButton{
-        transition: all 0.2s ease-in-out
-        box-shadow: 8px 8px 10px 0px rgba(0,0,0,0.99)     
-    }
-    .boxButton:hover{
-        box-shadow: 0 0 0 0
-    }
-`
-
-const PanelStyle = styled.div`  
-
-    .panel{
-        position: relative
-        background: rgb(36, 40, 42)
-        width: 100%
-        margin-bottom: 1rem
-        transition: all 1s ease-in-out
-        border-radius: 4px
-        padding: 25px 15px 25px 15px
-        top: 0px
-        border-left: 3px solid #2600B2 
-    }
-    .panel:hover{        
-        box-shadow: rgba(0, 0, 0, 0.6) 10px 10px 15px 5px; 
-        top: -5px
-        border-left: 3px solid #00CBFF
-    }
-    .collapsed{
-        top: ${props => props.display === false ? 0 : '100%'};    
-        padding-top: 20px  
-    }
-}
-`
-
-const PopupStyle = {
-    borderRadius: '5px',
-    background:'rgba(0, 21, 41, 0)',
-    color:'white',
-    outline:'0',
-    border:'none'
-}
+import { RenderStyle, PanelStyle, PopupStyle } from './EditTopic.css.js'
 
 class ScreensBranchesEditTopic extends Component{
     constructor(props){
@@ -188,7 +62,7 @@ class ScreensBranchesEditTopic extends Component{
         const branchId = Object.keys(this.props.branch.branches)
             .filter(value => this.props.branch.branches[value].branch === branchName)
 
-        const branch = {branchId, branchName}  
+        const branch = { branchId, branchName }  
 
         const topic = Object.keys(this.props.branch.branches[branchId].topics)
             .map(value => (this.props.branch.branches[branchId]['topics'][value].topicName === topicName) && 
@@ -358,7 +232,8 @@ class ScreensBranchesEditTopic extends Component{
     update = () => {
         const url = window.location.href.split('/')
         const branchName = url[url.length-3].replace(/%20/g, ' ')
-        
+        const topicNameFromUrl = url[url.length-1].replace(/%20/g, ' ')
+
         let oldBranchName = ''
         let listOfBranches = []
         if (this.state.branch.branchName !== branchName){
@@ -377,10 +252,30 @@ class ScreensBranchesEditTopic extends Component{
         let {dates} = this.state.topic
         dates.lastEdit[0] = !dates.lastEdit[0] ?  '' : dates.lastEdit[0]
         
-        const {branch} = this.state
+        const { branch } = this.state
         branch.oldBranchName = oldBranchName
         branch.listOfBranches = listOfBranches
 
+        //---------if has another topic with the same name, it will be find out the id of it---------------
+        let idExistingTopic = ''
+        let existingTopic = {}
+        if (this.state.topic.topicName !== topicNameFromUrl){
+            const topicNames = Object
+            .keys(this.props.branch.branches[branch.branchId[0]]['topics'])
+            .map(value => this.props.branch.branches[branch.branchId[0]]['topics'][value]['topicName'])
+   
+        let keyTopicAlreadyCreated = -1
+        topicNames.map((value, key) => topicName === value && (keyTopicAlreadyCreated = key))
+        keyTopicAlreadyCreated !== -1 && 
+            Object
+                .keys(this.props.branch.branches[branch.branchId[0]]['topics'])
+                .map((value, key) => key === keyTopicAlreadyCreated && 
+                    (existingTopic = {...this.props.branch.branches[branch.branchId[0]]['topics'][value]}) &&
+                    (idExistingTopic = value)
+                ) 
+        }
+        //---------------------------------------------------------------------------------------------------
+                
         const imagePathFromProps = this.props.branch.branches[branch.branchId[0]]['topics'][topicId].imagePath
         if (imagePathFromProps){
             if (justDeleteImage){
@@ -395,7 +290,7 @@ class ScreensBranchesEditTopic extends Component{
                     )
             }
         } 
-
+        
         const topic = {
             topicId,
             topicName,
@@ -405,7 +300,9 @@ class ScreensBranchesEditTopic extends Component{
             dates,
             lastImageName,
             lastImagePath,
-            justDeleteImage
+            justDeleteImage,
+            existingTopic,
+            idExistingTopic
         }
     
         dates.created[0] ? 
@@ -532,10 +429,11 @@ class ScreensBranchesEditTopic extends Component{
                                     <p style={{marginBottom: '20px', color:'red', cursor:'pointer'}}>
                                         {valuesLastEdit[key] && `Last edit in: ${valuesLastEdit[key]}`}
                                     </p>
-                                    {contents.map(value => <p style={{color:'white'}}>{value}</p>)}
+                                    {contents.map(value => <p style={{color:'white', wordBreak:'break-word'}}>{value}</p>)}
                                 </div>
                             }
-                    </div>}
+                        </div>
+                    }
                     position='right center'
                     style={PopupStyle}
                     inverted
@@ -560,15 +458,19 @@ class ScreensBranchesEditTopic extends Component{
                                 size='big'
                             >
                                 Loading
-                            </Loader>
+                            </Loader> 
                         </Dimmer>             
                     }
-                    {this.props.branch.error && !this.state.isNotified && this.openNotificationWithIcon('error')(this.props.branch.errorMessage)}
-                    {this.props.branch.isUpdated && !this.state.isNotified && this.openNotificationWithIcon('success')(`The topic ${this.state.topic.topicName} was updated!`)}
+                    {this.props.branch.error && !this.state.isNotified && 
+                        this.openNotificationWithIcon('error')(this.props.branch.errorMessage)
+                    }
+                    {this.props.branch.isUpdated && !this.state.isNotified && 
+                        this.openNotificationWithIcon('success')(`The topic ${this.state.topic.topicName} has been updated!`)
+                    }
                     {this.props.branch.isUpdated && !this.props.branch.isLoadding &&
                         <Redirect to={`/branches/branch/${this.state.branch.branchName}/topic/${this.state.topic.topicName}`}/>
                     }
-                    <Segment style={{background:'rgba(0, 21, 41, 0)', padding:'30px 30px 0 30px', overflowX:'hidden', height:'89vh'}}>
+                    <Segment style={{background:'rgba(0, 21, 41, 0)', padding:'20px 30px 0 30px', overflowX:'hidden', height:'89vh'}}>
                         <Form>
                             <div style={{display:'flex', width:'100%', marginTop:'20px' , justifyContent:'space-around'}}>
                                 <Input 
@@ -584,7 +486,10 @@ class ScreensBranchesEditTopic extends Component{
                                     onChange={this.handleChange('topicName')}
                                 />
                             </div>
-                            <Segment style={{marginTop:'60px', paddingTop: '40px', background:'rgba(0, 21, 41, 0)'}} textAlign='center'>
+                            <Segment 
+                                style={{marginTop:'60px', paddingTop: '40px', background:'rgba(0, 21, 41, 0)'}} 
+                                textAlign='center'
+                            >
                                 <Popup
                                     trigger={
                                         <Button 
@@ -659,7 +564,7 @@ class ScreensBranchesEditTopic extends Component{
                                             </Button.Content>
                                         </Button>
                                     }
-                                    content='You need to write a titles and your respective contents for add a new titles!'
+                                    content='You need to write a title and your respective content for add a new title! Note: use ** to breake a line'
                                     position='right center'
                                     style={PopupStyle}
                                     inverted
@@ -670,9 +575,9 @@ class ScreensBranchesEditTopic extends Component{
                                     <Item.Content>                       
                                         {
                                             <List>
-                                                {this.state.topic.topicId && this.state.topic.titles.map((value,key) => 
-                                                    this.renderPanel(value,key)
-                                                )}
+                                                {this.state.topic.topicId && 
+                                                    this.state.topic.titles.map((value,key) => this.renderPanel(value,key))
+                                                }
                                                 <Popup
                                                     trigger={
                                                         <Image 

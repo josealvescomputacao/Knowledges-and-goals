@@ -1,5 +1,5 @@
 import React from 'react'
-import {Button, Icon, Header} from 'semantic-ui-react'
+import { Button, Icon, Header } from 'semantic-ui-react'
 
 export const ConfirmRemove = (props) => {
     return(

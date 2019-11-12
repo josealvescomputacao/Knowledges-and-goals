@@ -1,42 +1,14 @@
-import React, {Component, Fragment} from 'react'
-import {connect} from 'react-redux'
+import React, { Component, Fragment } from 'react'
+import { connect } from 'react-redux'
 import ActionCreator from '../../redux/actionCreators'
 import { Spin, notification } from 'antd'
 
 import Sidebar from './Sidebar'
 import ScreensGoalsContent from './Content'
 import ScreensGoalsInputs from './Inputs'
+import { RenderStyle } from './index.css.js'
 
 import moment from 'moment'
-
-import styled from 'styled-components'
-
-const RenderStyle = styled.div`
-    @media (max-width: 768px)  { 
-        #component{
-            margin:0 2vw 0 1vw
-        }
-    }
-    @media (min-width: 768px) and (max-width: 992px) { 
-        #component{
-            margin: 0 7vw 0 3vw
-        }
-    }
-    @media (min-width: 992px) and (max-width: 1200px){ 
-        #component{
-            margin: 0 10vw 0 6vw 
-        }
-    }
-    @media (min-width: 1200px) { 
-        #component{
-            margin: 0 14vw 0 14vw 
-        }
-    } 
-    #component{
-        width: 100%
-        overflow:auto
-    }
-`
 
 class ScreensGoals extends Component {
 
@@ -90,10 +62,9 @@ class ScreensGoals extends Component {
 
     componentDidMount(){
         if (this.props.auth.isAuth && this.props.goal.goals){
-            Object.keys(this.props.goal.goals).length === 0 ? 
-                this.props.loadGoals(this.props.auth.user.uid)
-                : 
-                this.setState({goals: this.renderGoals()})
+            Object.keys(this.props.goal.goals).length === 0 
+                ? this.props.loadGoals(this.props.auth.user.uid)
+                : this.setState({goals: this.renderGoals()})
         }
     }
 
@@ -406,7 +377,6 @@ class ScreensGoals extends Component {
         this.setState({goals, aboutGoal, goalCreated: '', isChecked: false, lastChecked})
     }
     
-
     createGoal = () => {
         if (this.state.goal[0]['name']){
             const obj = {...this.state.goal}
@@ -419,7 +389,7 @@ class ScreensGoals extends Component {
                     }
                 }, {})
 
-            const {uid} = this.props.auth.user
+            const { uid } = this.props.auth.user
             this.props.create(goal, uid) 
             
             goal = {   
@@ -670,9 +640,9 @@ class ScreensGoals extends Component {
                             />
                         } 
                         <div id='component'>
-                            {this.props.goal.goalCreated && !this.state.isNotified && this.openNotificationWithIcon('success')('Goal created!')}
-                            {this.props.goal.isUpdate && !this.state.isNotified && this.openNotificationWithIcon('success')('Goal updated!')}
-                            {this.props.goal.isDeleted && !this.state.isNotified && this.openNotificationWithIcon('success')('Goal deleted!')}
+                            {this.props.goal.goalCreated && !this.state.isNotified && this.openNotificationWithIcon('success')('Goal has been created!')}
+                            {this.props.goal.isUpdate && !this.state.isNotified && this.openNotificationWithIcon('success')('Goal has been updated!')}
+                            {this.props.goal.isDeleted && !this.state.isNotified && this.openNotificationWithIcon('success')('Goal has been deleted!')}
                             {this.props.goal.error && !this.state.isNotified && this.openNotificationWithIcon('error')(this.props.goal.errorMessage)}
                             {this.state.modal.message && this.openNotificationWithIcon('error')(this.state.modal.message)}
 

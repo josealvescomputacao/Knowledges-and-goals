@@ -1,9 +1,6 @@
 import styled from 'styled-components'
 
-
 const BodyAccount = styled.div`
-
-
     .social_icon{
         position: absolute;
         right: 20px;
@@ -96,5 +93,4 @@ const BodyAccount = styled.div`
     }            
 
 `
-
 export default BodyAccount

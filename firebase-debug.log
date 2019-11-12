@@ -1,0 +1,102 @@
+[debug] [2019-11-12T02:07:33.842Z] ----------------------------------------------------------------------
+[debug] [2019-11-12T02:07:33.844Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Junior\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2019-11-12T02:07:33.844Z] CLI Version:   7.7.0
+[debug] [2019-11-12T02:07:33.845Z] Platform:      win32
+[debug] [2019-11-12T02:07:33.845Z] Node Version:  v10.14.2
+[debug] [2019-11-12T02:07:33.845Z] Time:          Mon Nov 11 2019 23:07:33 GMT-0300 (GMT-03:00)
+[debug] [2019-11-12T02:07:33.845Z] ----------------------------------------------------------------------
+[debug] [2019-11-12T02:07:33.845Z] 
+[debug] [2019-11-12T02:07:33.854Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-11-12T02:07:33.855Z] > authorizing via signed-in user
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\Junior\Desktop\knowlegendsandgoal
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[info] i  .firebaserc already has a default project, using knowledgesandgoals.
+[debug] [2019-11-12T02:07:37.901Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2019-11-12T02:07:37.901Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2019-11-12T02:07:38.376Z] <<< HTTP RESPONSE 400
+[debug] [2019-11-12T02:07:38.378Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/knowledgesandgoals  
+ 
+[debug] [2019-11-12T02:07:39.729Z] <<< HTTP RESPONSE 401
+[debug] [2019-11-12T02:07:39.729Z] <<< HTTP RESPONSE BODY
+[debug] [2019-11-12T02:07:39.731Z] HTTP Error: 401, Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.
+[debug] [2019-11-12T02:07:39.734Z] FirebaseError: HTTP Error: 401, Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.
+    at module.exports (C:\Users\Junior\AppData\Roaming\npm\node_modules\firebase-tools\lib\responseToError.js:38:12)
+    at Request._callback (C:\Users\Junior\AppData\Roaming\npm\node_modules\firebase-tools\lib\api.js:39:35)
+    at Request.self.callback (C:\Users\Junior\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:185:22)
+    at Request.emit (events.js:182:13)
+    at Request.EventEmitter.emit (domain.js:441:20)
+    at Request.<anonymous> (C:\Users\Junior\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:1161:10)
+    at Request.emit (events.js:182:13)
+    at Request.EventEmitter.emit (domain.js:441:20)
+    at IncomingMessage.<anonymous> (C:\Users\Junior\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:1083:12)
+    at Object.onceWrapper (events.js:273:13)
+[error] 
+[error] Error: Failed to get Firebase project knowledgesandgoals. Please make sure the project exists and your account has permission to access it.
+[debug] [2019-11-12T02:07:43.698Z] ----------------------------------------------------------------------
+[debug] [2019-11-12T02:07:43.700Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Junior\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2019-11-12T02:07:43.700Z] CLI Version:   7.7.0
+[debug] [2019-11-12T02:07:43.700Z] Platform:      win32
+[debug] [2019-11-12T02:07:43.700Z] Node Version:  v10.14.2
+[debug] [2019-11-12T02:07:43.701Z] Time:          Mon Nov 11 2019 23:07:43 GMT-0300 (GMT-03:00)
+[debug] [2019-11-12T02:07:43.701Z] ----------------------------------------------------------------------
+[debug] [2019-11-12T02:07:43.701Z] 
+[debug] [2019-11-12T02:07:43.709Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-11-12T02:07:43.710Z] > authorizing via signed-in user
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\Junior\Desktop\knowlegendsandgoal
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[info] i  .firebaserc already has a default project, using knowledgesandgoals.
+[debug] [2019-11-12T02:07:57.063Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2019-11-12T02:07:57.063Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2019-11-12T02:07:57.560Z] <<< HTTP RESPONSE 400
+[debug] [2019-11-12T02:07:57.561Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/knowledgesandgoals  
+ 
+[debug] [2019-11-12T02:07:58.926Z] <<< HTTP RESPONSE 401
+[debug] [2019-11-12T02:07:58.927Z] <<< HTTP RESPONSE BODY
+[debug] [2019-11-12T02:07:58.928Z] HTTP Error: 401, Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.
+[debug] [2019-11-12T02:07:58.931Z] FirebaseError: HTTP Error: 401, Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.
+    at module.exports (C:\Users\Junior\AppData\Roaming\npm\node_modules\firebase-tools\lib\responseToError.js:38:12)
+    at Request._callback (C:\Users\Junior\AppData\Roaming\npm\node_modules\firebase-tools\lib\api.js:39:35)
+    at Request.self.callback (C:\Users\Junior\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:185:22)
+    at Request.emit (events.js:182:13)
+    at Request.EventEmitter.emit (domain.js:441:20)
+    at Request.<anonymous> (C:\Users\Junior\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:1161:10)
+    at Request.emit (events.js:182:13)
+    at Request.EventEmitter.emit (domain.js:441:20)
+    at IncomingMessage.<anonymous> (C:\Users\Junior\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:1083:12)
+    at Object.onceWrapper (events.js:273:13)
+[error] 
+[error] Error: Failed to get Firebase project knowledgesandgoals. Please make sure the project exists and your account has permission to access it.

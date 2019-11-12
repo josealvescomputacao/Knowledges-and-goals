@@ -1,76 +1,13 @@
-import React, {Component} from 'react'
-import {Link} from 'react-router-dom'
-import {connect} from 'react-redux'
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import ActionCreator from './../redux/actionCreators'
 
-import {Grid, Input, Button, Icon, Modal, Form, Loader, Dimmer} from 'semantic-ui-react'
+import { Grid, Input, Button, Icon, Modal, Form, Loader, Dimmer } from 'semantic-ui-react'
 import { notification } from 'antd'
+
 import BodyAccount from './AccountStyle'
-
-import styled from 'styled-components'
-
-const RenderStyle = styled.div`
-    @media (min-width: 320px)  {             
-        #title{
-            position:relative
-            top: 50px
-            text-align: center
-        }
-
-        h1{
-            font-size: 26px
-        }
-        h2{
-            font-size: 20px
-        }
-    }
-
-    @media (min-width: 992px){ 
-        
-        #title{
-            top: 0
-            position: absolute
-        }
-
-        h1{
-            font-size: 32px
-        }
-  
-        h2{
-            font-size: 26px
-        }
-    }
-
-    #fieldEmail{ 
-        box-shadow: 10px 10px 10px 0px
-        border-radius: 5px 
-        transition: all 0.5s ease-in-out
-        top:-40px
-    }
-    #fieldEmail:focus{
-        box-shadow: 0 0 0 0
-        top:-35px
-    }
-
-    #fieldPassword{ 
-        box-shadow: 6px 6px 10px 0px
-        transition: all 0.5s ease-in-out
-        top:-40px
-    }
-    #fieldPassword:focus{
-        box-shadow: 0 0 0 0
-        top:-35px
-    }
-
-    #boxButton{
-        transition: all 0.5s ease-in-out
-        box-shadow: 12px 12px 10px 0px rgba(0,0,0,0.7)    
-    }
-    #boxButton:hover{
-        box-shadow: 0 0 0 0 rgba(0,0,0,0.5) 
-    }
-
-`
+import { RenderStyle } from './Login.css.js'
 
 class ScreensLogin extends Component{
 
@@ -146,7 +83,7 @@ class ScreensLogin extends Component{
     }
 
     render(){
-        const { open, dimmer } = this.state
+        const {open, dimmer} = this.state
         const social = ['facebook f', 'google']
         return(
             <BodyAccount>
@@ -156,8 +93,12 @@ class ScreensLogin extends Component{
                             <Loader size='big'>Loading</Loader>
                         </Dimmer>            
                     }
-                    {this.props.auth.error && !this.state.isNotified && this.openNotificationWithIcon('error')(this.props.auth.errorMessage)}
-                    {this.props.auth.emailSended && !this.state.isNotified && this.openNotificationWithIcon('success')('Access your email for change your password!')}
+                    {this.props.auth.error && !this.state.isNotified && 
+                        this.openNotificationWithIcon('error')(this.props.auth.errorMessage)
+                    }
+                    {this.props.auth.emailSended && !this.state.isNotified && 
+                        this.openNotificationWithIcon('success')('Access your email for change your password!')
+                    }
                     <Grid centered>
                         <Grid.Row 
                             style={{top:'70px'}} 
@@ -236,68 +177,68 @@ class ScreensLogin extends Component{
                                 </Grid> 
                                 <Grid centered>       
                                     <Grid.Column width={9}>  
-                                            <Button 
-                                                id='boxButton' 
-                                                size='big' 
-                                                style={{width:'100%'}} 
-                                                onClick={() => this.login('emailPassword')} 
-                                                secondary 
-                                                animated
+                                        <Button 
+                                            id='boxButton' 
+                                            size='big' 
+                                            style={{width:'100%'}} 
+                                            onClick={() => this.login('emailPassword')} 
+                                            secondary 
+                                            animated
+                                        >
+                                            <Button.Content visible>Login</Button.Content>
+                                            <Button.Content hidden>
+                                                <Icon size='large' name='sign-in' />
+                                            </Button.Content>
+                                        </Button>
+                                        
+                                        <div style={{textAlign:'center', marginTop:'70px', cursor:'pointer'}}>
+                                            <span 
+                                                onClick={this.show('blurring')}
+                                                style={{color:'white', fontSize:'18px', textShadow:'1px 1px 1px', fontWeight:600}} 
                                             >
-                                                <Button.Content visible>Login</Button.Content>
-                                                <Button.Content hidden>
-                                                    <Icon size='large' name='sign-in' />
-                                                </Button.Content>
-                                            </Button>
-                                            
-                                            <div style={{textAlign:'center', marginTop:'70px', cursor:'pointer'}}>
-                                                <span 
-                                                    onClick={this.show('blurring')}
-                                                    style={{color:'white', fontSize:'18px', textShadow:'1px 1px 1px', fontWeight:600}} 
-                                                >
-                                                    Forgot your password?
-                                                </span>
-                                                <Modal 
-                                                    style={{width:'53%', background:'rgba(0,0,0,0.0001)', boxShadow: '0 0 0 0', top: '70px'}} 
-                                                    dimmer={dimmer} 
-                                                    open={open} 
-                                                    onClose={this.close}
-                                                >
-                                                    <div style={{margin: '5%'}}>
-                                                        <Grid centered>
-                                                            <Grid.Column width={10}>
-                                                                <Input 
-                                                                    onChange={this.handleChange("sendEmail")}
-                                                                    style={{textAlign:'center',width:'100%', 'boxShadow':'15px 15px 15px 0px rgba(0,0,0,0.99)', borderRadius:'5px', opacity:0.9}} 
-                                                                    autoComplete="on" 
-                                                                    value={this.state.sendEmail} 
-                                                                    type="text" 
-                                                                    placeholder="E-mail" 
-                                                                    icon='mail' 
-                                                                    iconPosition='left'
-                                                                /> 
-                                                            </Grid.Column> 
-                                                        </Grid>
-                                                    </div>                 
-                                                    <div style={{margin:'10px 10px 10px 10px', textAlign:'center'}}>
-                                                        <Button 
-                                                            onClick={this.close}
-                                                            color='black' 
-                                                            style={{'boxShadow':'5px 5px 10px 0px rgba(0,0,0,0.99)', marginRight:'10px'}} 
-                                                        >
-                                                            Nope
-                                                        </Button> 
-                                                        <Button
-                                                            positive
-                                                            icon='checkmark'
-                                                            labelPosition='right'
-                                                            content="Send"
-                                                            onClick={this.close}
-                                                            style={{'boxShadow':'5px 5px 10px 0px rgba(0,0,0,0.99)'}}
-                                                        />
-                                                    </div>
-                                                </Modal>  
-                                            </div>
+                                                Forgot your password?
+                                            </span>
+                                            <Modal 
+                                                style={{width:'53%', background:'rgba(0,0,0,0.0001)', boxShadow: '0 0 0 0', top: '70px'}} 
+                                                dimmer={dimmer} 
+                                                open={open} 
+                                                onClose={this.close}
+                                            >
+                                                <div style={{margin: '5%'}}>
+                                                    <Grid centered>
+                                                        <Grid.Column width={10}>
+                                                            <Input 
+                                                                onChange={this.handleChange("sendEmail")}
+                                                                style={{textAlign:'center',width:'100%', 'boxShadow':'15px 15px 15px 0px rgba(0,0,0,0.99)', borderRadius:'5px', opacity:0.9}} 
+                                                                autoComplete="on" 
+                                                                value={this.state.sendEmail} 
+                                                                type="text" 
+                                                                placeholder="E-mail" 
+                                                                icon='mail' 
+                                                                iconPosition='left'
+                                                            /> 
+                                                        </Grid.Column> 
+                                                    </Grid>
+                                                </div>                 
+                                                <div style={{margin:'10px 10px 10px 10px', textAlign:'center'}}>
+                                                    <Button 
+                                                        onClick={this.close}
+                                                        color='black' 
+                                                        style={{'boxShadow':'5px 5px 10px 0px rgba(0,0,0,0.99)', marginRight:'10px'}} 
+                                                    >
+                                                        Nope
+                                                    </Button> 
+                                                    <Button
+                                                        positive
+                                                        icon='checkmark'
+                                                        labelPosition='right'
+                                                        content="Send"
+                                                        onClick={this.close}
+                                                        style={{'boxShadow':'5px 5px 10px 0px rgba(0,0,0,0.99)'}}
+                                                    />
+                                                </div>
+                                            </Modal>  
+                                        </div>
                                     </Grid.Column>
                                 </Grid>
                                 <div style={{marginTop: '30px',textAlign:'center'}}>

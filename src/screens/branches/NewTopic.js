@@ -1,137 +1,20 @@
-import React, {Component, Fragment} from 'react'
-import {Redirect, Link} from 'react-router-dom'
+import React, { Component, Fragment } from 'react'
+import { Redirect, Link } from 'react-router-dom'
 
 import {
     Segment, Input, Button, Icon, Form, TextArea, Label, Grid, Popup, List, Loader, Dimmer
 } from 'semantic-ui-react'
 import { notification } from 'antd'
-import styled from 'styled-components'
 
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import ActionCreator from '../../redux/actionCreators'
 
 import moment from 'moment'
 
 import { Calendar } from './elements/Calendar'
 
+import { RenderStyle, PanelStyle, PopupStyle } from './NewTopic.css.js'
 
-const RenderStyle = styled.div`
-    @media (min-width: 320px)  { 
-            
-        #date{
-            position:relative
-        }
-    }
-    @media (max-width: 512px)  { 
-            
-        #calendar{
-            margin-top: 20px
-        }
-    }
-    @media (min-width: 992px){ 
-        
-        #date{
-            position: absolute
-        }
-
-    }
-
-    #topicName{
-        box-shadow: 8px 14px 16px 0px
-        border-radius: 5px 
-        margin-bottom: 20px
-        background: #F3F4DF
-        transition: all 0.5s ease-in-out
-        position: absolute
-        top:-5px
-    }
-    #topicName: focus{
-        box-shadow: 0 0 0 0
-        top:0px
-    }
-
-    #titleName{ 
-        box-shadow: 5px 10px 10px 0px
-        border-radius: 5px 
-        margin-bottom: 20px
-        transition: all 0.5s ease-in-out
-        position: absolute
-        top:-45px
-    }
-    #titleName:focus{
-        box-shadow: 0 0 0 0
-        top:-40px
-    }
-
-    #contentName{ 
-        position: absolute
-        box-shadow: 5px 10px 10px 0px
-        border-radius: 5px 
-        margin-bottom: 20px
-        transition: all 0.5s ease-in-out
-        top:-40px
-    }
-    #contentName:focus{
-        box-shadow: 0 0 0 0
-        top:-35px
-    }
-
-    .boxButton{
-        transition: all 0.2s ease-in-out
-        box-shadow: 8px 8px 10px 0px rgba(0,0,0,0.99)  
-    }
-    .boxButton:hover{
-        box-shadow: 0 0 0 0
-    }
-
-    .inputFile{
-        width: 0.1px;
-        height: 0.1px;
-        opacity: 0;
-        overflow: hidden;
-        margin-left: -15px
-        transition: all 0.5s ease-in-out
-        position: absolute;
-        marginBottom: 20px;
-        z-index: -1;
-    }
-    .inputFile:hover{
-        box-shadow: 0 0 0 0
-    }
-`
-
-const PanelStyle = styled.div` 
-
-    .panel{
-        position: relative;
-        background: rgb(36, 40, 42)
-        width: 100%;
-        margin-bottom: 1rem;
-        transition-duration: .5s
-        border-radius: 4px
-        padding: 25px 15px 25px 15px
-        
-        top: 0px
-        border-left: 3px solid #2600B2
-        
-    }
-    .panel:hover{        
-        box-shadow: rgba(0, 0, 0, 0.6) 10px 10px 15px 3px;
-        top: -5px
-        border-left: 3px solid #00CBFF
-    }
-    .collapsedContent{
-        top: ${props => props.display === false ? 0 : '100%'};    
-        padding-top: 20px;
-        overflow:hidden;
-        word-wrap: break-word;
-    } 
-}
-`
-const PopupStyle = {
-    borderRadius: '5px',
-    background:'rgba(0, 21, 41, 0)'
-}
 
 class ScreensBranchesNewTopic extends Component {
 
@@ -188,9 +71,9 @@ class ScreensBranchesNewTopic extends Component {
 
     create = () => { 
         const userId = this.props.auth.user.uid
-        const {titles, contents, image} = this.state.topic   
+        const { titles, contents, image } = this.state.topic   
         if (this.state.topicName && titles.length !== 0 && contents.length !== 0){
-            const {topicName} = this.state
+            const { topicName } = this.state
             let dates = titles.map(value => this.state.date.moment.format('LL'))
             this.state.topic.image && (dates = [...dates, this.state.date.moment.format('LL')])
             const topic = {
@@ -299,8 +182,9 @@ class ScreensBranchesNewTopic extends Component {
     }
   
     renderPanel = (value,key) => { 
-        const {selectedKey} = this.state.topic
+        const { selectedKey } = this.state.topic
         let iconAngle = 'right'
+        const contents = key !== this.state.topic.contents.length && this.state.topic.contents[key].split('**')
         return (
             <PanelStyle 
                 key={key} 
@@ -340,7 +224,7 @@ class ScreensBranchesNewTopic extends Component {
                     </div>    
                     {selectedKey === key && 
                         <div className='collapsedContent'>
-                            <h3 style={{color:'white', marginLeft:'5%'}}>{this.state.topic.contents[key]}</h3>
+                            {contents.map(value => <h3 style={{color:'white', marginLeft:'5%', wordBreak:'break-word'}}>{value}</h3>)}
                         </div>
                     }
                 </div>
@@ -364,11 +248,14 @@ class ScreensBranchesNewTopic extends Component {
                             </Loader>
                         </Dimmer>            
                     }
-                    <Segment style={{background:'rgba(0, 21, 41, 0)', overflow:'auto', height:'89vh', paddingRight:'40px', marginTop:'0px'}}>
+                    <Segment style={{background:'rgba(0, 21, 41, 0)', overflow:'auto', height:'89vh', padding:'30px 40px 0 0'}}>
                         
-                        {this.props.branch.error && !this.state.isNotified && this.openNotificationWithIcon('error')(this.props.branch.errorMessage)}
-                        {this.props.branch.isCreated && !this.state.isNotified && this.openNotificationWithIcon('success')(`The topic ${this.state.topicName} was created!`)}
-
+                        {this.props.branch.error && !this.state.isNotified && 
+                            this.openNotificationWithIcon('error')(this.props.branch.errorMessage)
+                        }
+                        {this.props.branch.isCreated && !this.state.isNotified && 
+                            this.openNotificationWithIcon('success')(`The topic ${this.state.topicName} has been created!`)
+                        }
                         {this.props.branch.isCreated && !this.props.branch.isLoadding && this.state.topicName && 
                             <Redirect to={`/branches/branch/${this.state.branch.branchName}/topic/${this.state.topicName}`}/>
                         }
@@ -394,7 +281,7 @@ class ScreensBranchesNewTopic extends Component {
                                             style={{width:'100%'}} 
                                             id='titleName' 
                                             value={this.state.topic.inputTitle} 
-                                            placeholder='Write a titles' 
+                                            placeholder='Write a title' 
                                         />
                                         <br/>
                                         <br/>
@@ -412,7 +299,6 @@ class ScreensBranchesNewTopic extends Component {
                                         />
                                     </Grid.Column>
                                 </Grid>
-                                <br/>
                                 <Popup
                                     trigger={
                                         <Button 
@@ -427,7 +313,7 @@ class ScreensBranchesNewTopic extends Component {
                                         <Icon size='large' style={{color:'white'}} name='add' />
                                     </Button.Content>
                                     </Button>}
-                                    content='You need to write a titles and your respective contents for add a new titles!'
+                                    content='You need to write a titles and your respective contents for add a new title! Note: use ** to breake a line'
                                     position='right center'
                                     style={PopupStyle}
                                     inverted

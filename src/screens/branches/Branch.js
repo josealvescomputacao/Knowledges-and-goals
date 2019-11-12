@@ -1,33 +1,14 @@
-import React, {Component, Fragment} from 'react'
-import {Link} from 'react-router-dom'
-import {Table, Icon, Header, Popup, Button, Dimmer, Loader} from 'semantic-ui-react'
+import React, { Component, Fragment } from 'react'
+import { Link } from 'react-router-dom'
+import { Table, Icon, Header, Popup, Button, Dimmer, Loader, Form } from 'semantic-ui-react'
 import { notification } from 'antd'
 
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import ActionCreator from '../../redux/actionCreators'
-
-import styled from 'styled-components'
 
 import { ConfirmRemove } from './elements/ConfirmRemove'
 
-const PopupStyle = {
-    borderRadius: '5px',
-    background:'rgba(0, 21, 41, 0)',
-    color:'white',
-    outline:'0',
-    border:'none'
-}
-
-const RenderStyle = styled.div`
-    .button{
-        transition: all 0.4s ease-in-out
-        box-shadow: 8px 8px 15px 4px rgba(0,0,0,0.9)
-        
-    }
-    .button:hover{
-        box-shadow: 0 0 0 rgba(0,0,0,0.5)
-    }
-`
+import { RenderStyle, PopupStyle } from './Branch.css.js'
 
 class ScreensBranchesBranch extends Component{
 
@@ -49,20 +30,21 @@ class ScreensBranchesBranch extends Component{
                 key: '',
                 isOpen: false
             },
-            willDeleted: ''
-            
+            willDeleted: '',
+            searchTopic: ''
         }
     }
 
     componentDidMount(){
         if (this.props.branch.isCreated || this.props.branch.isUpdated || this.props.branch.isDeleted){
-            this.props.reset()
+            this.props.reset() 
         }
     }
 
     componentDidUpdate(){
         if (this.props.auth.isAuth && !this.state.branch.branchId){ //just entry in refresh
-            const branchKey = Object.keys(this.props.branch.branches)
+            const branchKey = Object
+                .keys(this.props.branch.branches)
                 .filter(value =>  this.props.branch.branches[value].branch === this.state.branch.branchName)
             this.setState({
                 branch: {
@@ -107,7 +89,7 @@ class ScreensBranchesBranch extends Component{
           message: text,
           style: {textAlign:'center', top:'40px', boxShadow: '15px 15px 10px 0px rgba(0,0,0,0.7)'}
         })
-        this.setState({
+        this.setState({ 
             isNotified: true
         })
     }
@@ -160,7 +142,10 @@ class ScreensBranchesBranch extends Component{
                             onOpen={() => this.handleOpenPopup(key)}
                             onClose={() => this.handleClosePopup(key)}
                             content={
-                                <ConfirmRemove delete={() => this.delete(value, topicName)} handleClosePopup={this.handleClosePopup}/>
+                                <ConfirmRemove 
+                                    delete={() => this.delete(value, topicName)} 
+                                    handleClosePopup={this.handleClosePopup}
+                                />
                             } 
                         />  
                     </Table.Cell>
@@ -171,6 +156,7 @@ class ScreensBranchesBranch extends Component{
 
     render(){
         const {branchId} = this.state.branch
+        const {branches} = this.props.branch
         const headers = ['Name', 'Created', 'Options']
         const keys = branchId && this.props.branch.branches[branchId]['topics'] ?
             Object.keys(this.props.branch.branches[branchId]['topics']) 
@@ -183,8 +169,12 @@ class ScreensBranchesBranch extends Component{
                         <Loader size='big'>Loading</Loader>
                     </Dimmer>            
                 }
-                {this.props.branch.error && !this.state.isNotified && this.openNotificationWithIcon('error')(this.props.branch.errorMessage)}
-                {this.props.branch.isDeleted && !this.state.isNotified && this.openNotificationWithIcon('success')(`The topic ${this.state.willDeleted} was deleted `)}
+                {this.props.branch.error && !this.state.isNotified && 
+                    this.openNotificationWithIcon('error')(this.props.branch.errorMessage)
+                }
+                {this.props.branch.isDeleted && !this.state.isNotified && 
+                    this.openNotificationWithIcon('success')(`The topic ${this.state.willDeleted} has been deleted!`)
+                }
                 <RenderStyle>
                     <div style={{background:'rgba(0, 21, 41, 0.9)', paddingBottom:'10px', textAlign:'center', boxShadow: '6px 15px 25px 5px rgba(0,0,0,0.9)', position:'relative', left: '50%', transform: 'translate(-50%, 0%)', top:'20px', width: "70vw", zIndex:'1', borderRadius:'10px'}}>
                         {!this.props.branch.isLoadding && 
@@ -233,8 +223,22 @@ class ScreensBranchesBranch extends Component{
                                 />   
                             </Link>
                         }
+                        {!this.props.branch.isLoadding &&
+                            <Form.Input 
+                                onChange={this.handleChange('searchTopic')} 
+                                autoComplete="on" 
+                                icon='search'
+                                style={{borderRadius:'5px', position:'absolute', boxShadow: '8px 8px 10px 0px rgba(0,0,0,0.99)', top:'5px', right:'40px', width:'20%', textColor:'white'}}
+                                placeholder="Search"
+                                type={'text'}
+                                value={this.state.selectedTitle}
+                                focus
+                                id='search'
+                            />   
+                        } 
                     </div>
-                    <div style={{
+                    <div 
+                        style={{
                             position:'absolute',
                             top:'155px',
                             left: '50%',
@@ -245,7 +249,8 @@ class ScreensBranchesBranch extends Component{
                             height:'88vh',
                             borderRadius:'5px',
                             padding: '30px 70px 40px 0'
-                    }}>
+                        }}  
+                    >
                         <Table 
                             inverted 
                             style={{boxShadow: '6px 6px 25px 5px rgba(0,0,0,0.9)', background:'rgba(0, 21, 41, 0.5)',  margin:'0px 0px 60px 30px', borderRadius:'5px'}} 
@@ -265,7 +270,16 @@ class ScreensBranchesBranch extends Component{
                                     )}
                                 </Table.Row>
                             </Table.Header>
-                            {keys.map((value, key) => this.renderBranchs(value, key))}
+                            {!this.state.searchTopic && 
+                                keys.map((value, key) => this.renderBranchs(value, key))
+                            }
+                            {this.state.searchTopic && 
+                                keys.map((value,key) => branches[branchId]['topics'][value]['topicName']
+                                    .toLowerCase()
+                                    .includes(this.state.searchTopic.toLowerCase()) && 
+                                    this.renderBranchs(value, key)
+                                )
+                            }
                         </Table>
                     </div>
                 </RenderStyle>

@@ -1,39 +1,10 @@
 import React from 'react'
-import { Menu, Icon, Checkbox, Button, Modal, Select, DatePicker, Input} from 'antd'
-import {Popup} from 'semantic-ui-react'
-import styled from 'styled-components'
+import { Menu, Icon, Checkbox, Button, Modal, Select, DatePicker, Input } from 'antd'
+import { Popup } from 'semantic-ui-react'
 import moment from 'moment'
 
+import { BodySidebar, PopupStyle } from './Sidebar.css.js'
 const Option = Select.Option
-
-const BodySidebar = styled.div` 
-    @media (max-width: 768px)  { 
-        #sidebar{
-            max-width: 180px
-        }
-    }
-    @media (min-width: 768px) and (max-width: 992px) { 
-        #sidebar{
-            max-width: 250px
-        }
-    }
-    @media (min-width: 992px)  { 
-        #sidebar{
-            max-width: 350px 
-        }
-    }
-    .button{
-        transition: all 0.4s ease-in-out
-        box-shadow: 8px 8px 18px 6px rgba(0,0,0,0.9)
-    }
-    .button:hover{
-        box-shadow: 0 0 0 rgba(0,0,0,0.5)
-    }
-`
-const PopupStyle = {
-    borderRadius: '5px',
-    background:'rgba(0, 21, 41, 0)'
-}
 
 const Sidebar = ({handleChange, createNewGoal, checked, selectedGoal, aboutGoal, goals, panel, toggleMenu, toggleMenuStatus, showModal, handleOk, handleCancel, handleSelectChange, modal}) => {
 

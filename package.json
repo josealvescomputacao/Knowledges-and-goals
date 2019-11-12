@@ -36,5 +36,17 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josealvescomputacao/Knowledges-and-goals.git"
+  },
+  "author": "josealvesufmt <josealvesufmt@gmail.com>",
+  "license": "MIT",
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "bugs": {
+    "url": "https://github.com/josealvescomputacao/Knowledges-and-goals/issues"
+  },
+  "homepage": "https://github.com/josealvescomputacao/Knowledges-and-goals#readme"
 }

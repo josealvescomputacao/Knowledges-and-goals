@@ -47,11 +47,11 @@ export const {
     createBranchSuccess: null,
     createBranchFailure: ['error'],
 
-    updateBranchRequest: ['branch', 'uid'],
+    updateBranchRequest: ['branch', 'aboutImage', 'uid'],
     updateBranchSuccess: null,
     updateBranchFailure: ['error'],
 
-    deleteBranchRequest: ['branchId', 'uid'],
+    deleteBranchRequest: ['branchId', 'aboutImage', 'uid'],
     deleteBranchSuccess: null,
     deleteBranchFailure: ['error'],
 

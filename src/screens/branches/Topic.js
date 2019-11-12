@@ -1,63 +1,10 @@
-import React, {Component, Fragment} from 'react'
-import {Link} from 'react-router-dom'
-import {connect} from 'react-redux'
+import React, { Component, Fragment } from 'react'
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import ActionCreator from '../../redux/actionCreators'
 
-import {Segment, Button, Icon, Grid, Image, Popup, Loader, Dimmer} from 'semantic-ui-react'
-import styled from 'styled-components'
-
-const RenderStyle = styled.div`
-    .boxButton{
-        transition: all 0.2s ease-in-out
-        borderRadius: 10px
-        box-shadow: 8px 8px 10px 0px rgba(0,0,0,0.99)     
-    }
-    .boxButton:hover{
-        box-shadow: 0 0 0 0 
-    }
-    #branchName{
-        color: blue
-        font-weight:700
-        margin: -15px 0 0 10px
-        position: absolute
-    }
-    #topicName{
-        color: white
-        position: absolute
-        margin: 20px 0 0 10px
-    }
-`
-
-const PanelStyle = styled.div`  
-    .panel{
-        position: relative;
-        width: 100%;
-        margin-bottom: 1rem;
-        transition: all 0.5s ease-in-out
-        border-radius: 4px;
-        padding: 25px 15px 25px 15px;
-        
-        top: 0px;
-        border-left: 3px solid #2600B2;
-        
-    }
-    .panel:hover{        
-        box-shadow: rgba(0, 0, 0, 0.6) 10px 10px 15px 3px; 
-        top: -5px;
-        border-left: 3px solid #00CBFF;
-    }
-    .collapsed{
-        top: ${props => props.display === false ? 0 : '100%'}    
-        padding-top: 20px
-    }
-}
-`
-
-const PopupStyle = {
-    borderRadius: '5px',
-    background:'rgba(0, 21, 41, 0)'
-}
-
+import { Segment, Button, Icon, Grid, Image, Popup, Loader, Dimmer, Form } from 'semantic-ui-react'
+import { RenderStyle, PanelStyle, PopupStyle} from './Topic.css.js'
 
 class ScreensBranchesTopic extends Component{ 
     constructor(props){
@@ -69,6 +16,7 @@ class ScreensBranchesTopic extends Component{
                 topicName: '',
                 titles: [],
                 contents: [],
+                searchTitle: '',
                 imagePath: '',
                 imageName: '',
                 dates: {
@@ -87,10 +35,12 @@ class ScreensBranchesTopic extends Component{
         const branchName = url[url.length-3].replace(/%20/g, ' ')  
         const topicName = url[url.length-1].replace(/%20/g, ' ') 
 
-        const branchId = Object.keys(this.props.branch.branches)
+        const branchId = Object
+            .keys(this.props.branch.branches)
             .filter(value => this.props.branch.branches[value].branch === branchName)
             
-        const topic = Object.keys(this.props.branch.branches[branchId].topics)
+        const topic = Object
+            .keys(this.props.branch.branches[branchId].topics)
             .map(value => (this.props.branch.branches[branchId]['topics'][value].topicName === topicName) && 
                 ({
                     topicName,
@@ -127,6 +77,15 @@ class ScreensBranchesTopic extends Component{
         }
     }
   
+    handleChange = field => event => {
+        this.setState({
+            topic: {
+                ...this.state.topic,
+                [field] : event.target.value
+            }  
+        })
+    }
+
     showPanel = key => {
         let {heightDisplay} = this.state
         const topic = {
@@ -148,12 +107,11 @@ class ScreensBranchesTopic extends Component{
         this.setState({heightDisplay, topic})
     }
 
-    renderPanel = (value,key) => { 
+    renderPanel = (value, key) => { 
         const valuesLastEdit = [...this.state.topic.dates['lastEdit']]
-        const {selectedKey} = this.state.topic
+        const { selectedKey } = this.state.topic
         let iconAngle = 'right'
         const contents = this.state.topic.contents[key].split('**')
-    
         return(
             <PanelStyle 
                 key={key} 
@@ -169,11 +127,12 @@ class ScreensBranchesTopic extends Component{
                             <Icon  
                                 size='big' 
                                 style={{position: 'absolute', top: '20px', color:'white' }} 
-                                name={'angle '+ (iconAngle = selectedKey === key ? 
-                                        (iconAngle === 'down' && 'right') || (iconAngle === 'right' && 'down') 
-                                        : 
-                                        'right'
-                                    )
+                                name={
+                                    'angle '+ 
+                                        (iconAngle = selectedKey === key 
+                                            ? (iconAngle === 'down' && 'right') || (iconAngle === 'right' && 'down') 
+                                            : 'right'
+                                        )
                                 }
                             />
                             <Grid 
@@ -181,12 +140,16 @@ class ScreensBranchesTopic extends Component{
                                 onClick={() => this.showPanel(key)} 
                                 style={{cursor: 'pointer'}}
                             >
-                                <h2 style={{color: 'white', paddingBottom: '10px'}}>{value}</h2>
+                                { 
+                                    <h2 style={{color: 'white', paddingBottom: '10px'}}>{value}</h2>
+                                }
                             </Grid> 
                             {selectedKey === key && 
                                 <div className='collapsed'>
                                     <p style={{marginBottom: '20px', color:'red'}}>{valuesLastEdit[key] && `Last edit in: ${valuesLastEdit[key]}`}</p>
-                                    {contents.map(value => <p style={{color:'white'}}>{value}</p>)}
+                                    {
+                                        contents.map(value => <p style={{color:'white', wordBreak:'break-word'}}>{value}</p>) 
+                                    }
                                 </div>
                             }
                         </div>
@@ -205,6 +168,7 @@ class ScreensBranchesTopic extends Component{
         const lengthDates = dates['created'].length-1
         const names = ['branchName', 'topicName']
         const text = imageName ? 'Imagem of topic: '+imageName : ''
+
         return(
             <Fragment>
                 {this.props.branch.isLoadding && 
@@ -212,8 +176,8 @@ class ScreensBranchesTopic extends Component{
                         <Loader size='big'>Loading</Loader>
                     </Dimmer>             
                 }
-                <RenderStyle>
-                    <Segment style={{background:'rgba(0, 21, 41, 0)', overflowX:'hidden', height:'88vh', paddingTop: '40px', borderRadius:'10px'}}>
+                <RenderStyle style={{height:'80vh'}}>
+                    <Segment style={{background:'rgba(0, 21, 41, 0)', marginTop:'20px'}}>
                         {names.map(value => 
                             <Popup
                                 trigger={
@@ -230,74 +194,95 @@ class ScreensBranchesTopic extends Component{
                                 inverted
                                 key={value}
                             />
-                        )} 
-                        <Segment style={{background:'rgba(0, 21, 41, 0)', marginTop:'50px'}}>
-                            {titles && 
-                                titles.map((value,key) => this.renderPanel(value,key))
-                            } 
-                            <Popup
-                                trigger={
-                                    <Image 
-                                        alt={text} 
-                                        style={{boxShadow: imagePath && '10px 10px 20px 5px rgba(0,0,0,0.99)', borderRadius:'10px'}} 
-                                        src={imagePath} 
-                                        fluid 
-                                        rounded
-                                    />
-                                }
-                                content={imagePath && `Created in: ${dates['created'][lengthDates]}`} 
-                                position='right center'
-                                style={PopupStyle}
-                                inverted
-                            />
-                        </Segment>
-                        <Segment 
-                            textAlign='center' 
-                            style={{background:'rgba(0, 21, 41, 0)', outline:'0'}}
+                        )}
+                        {names &&
+                            <Form.Input 
+                                onChange={this.handleChange('searchTitle')} 
+                                autoComplete="on" 
+                                icon='search'
+                                style={{borderRadius:'5px', position:'absolute', right: '30px', boxShadow: '8px 8px 10px 0px rgba(0,0,0,0.99)', height:'35px', width:'20%'}}
+                                placeholder="Search"
+                                type={'text'}
+                                value={this.state.selectedTitle}
+                                focus
+                                id='search'
+
+                            />   
+                        } 
+                    </Segment>
+                    <Segment style={{background:'rgba(0, 21, 41, 0)', overflowX:'hidden', height:'66vh', paddingTop: '30px', borderRadius:'10px', margin:'40px 0 -10px 0', boxShadow: '12px 12px 20px 5px rgba(0,0,0,0.99)'}}>
+                        {this.state.topic.searchTitle && 
+                            titles.map((value,key) => value.toLowerCase().includes(this.state.topic.searchTitle.toLowerCase()) &&
+                            this.renderPanel(value, key))
+                        }
+                        {titles && !this.state.topic.searchTitle && 
+                            titles.map((value,key) => this.renderPanel(value, key))
+                        } 
+                        <Popup
+                            trigger={
+                                <Image 
+                                    alt={text} 
+                                    style={{
+                                        boxShadow: imagePath && '10px 10px 20px 5px rgba(0,0,0,0.99)', 
+                                        borderRadius:'10px'
+                                    }} 
+                                    src={imagePath} 
+                                    fluid 
+                                    rounded
+                                />
+                            }
+                            content={imagePath && `Created in: ${dates['created'][lengthDates]}`} 
+                            position='right center'
+                            style={PopupStyle}
+                            inverted
+                        />
+                    </Segment>
+                    <Segment 
+                        textAlign='center' 
+                        style={{background:'rgba(0, 21, 41, 0)', outline:'0'}}
+                    >
+                        <Button 
+                            className='boxButton' 
+                            style={{background:'rgba(0, 21, 41, 0.7)'}} 
+                            animated
                         >
-                            <Button 
-                                className='boxButton' 
-                                style={{background:'rgba(0, 21, 41, 0.7)'}} 
-                                animated
-                            >
-                                <Link to={`/branches/branch/${this.state.branchName}`}>
-                                    <Button.Content 
-                                        visible 
-                                        style={{color: 'white', fontSize:'18px', padding:'5px 0 5px 0'}}
-                                    >
-                                        Topics
-                                    </Button.Content>
-                                    <Button.Content hidden>
-                                        <Icon 
-                                            size='large' 
-                                            style={{color:'white'}} 
-                                            name='arrow left' 
-                                        />
-                                    </Button.Content>
-                                </Link>
-                            </Button>
-                            <Button 
-                                className='boxButton' 
-                                style={{background:'rgba(0, 21, 41, 0.7)', marginLeft: '50px'}} 
-                                animated
-                            >
-                                <Link to={`/branches`}>
-                                    <Button.Content 
-                                        visible 
-                                        style={{color: 'white', fontSize:'18px', padding:'5px 0 5px 0'}}
-                                    >
-                                        Branchs
-                                    </Button.Content>
-                                    <Button.Content hidden>
-                                        <Icon  
-                                            size='large' 
-                                            style={{color:'white'}} 
-                                            name='arrow left' 
-                                        />
-                                    </Button.Content>
-                                </Link>
-                            </Button>
-                        </Segment>
+                            <Link to={`/branches/branch/${this.state.branchName}`}>
+                                <Button.Content 
+                                    visible 
+                                    style={{color: 'white', fontSize:'18px', padding:'5px 0 5px 0'}}
+                                >
+                                    Topics
+                                </Button.Content>
+                                <Button.Content hidden>
+                                    <Icon 
+                                        size='large' 
+                                        style={{color:'white'}} 
+                                        name='arrow left' 
+                                    />
+                                </Button.Content>
+                            </Link>
+                        </Button>
+                        <Button 
+                            className='boxButton' 
+                            style={{background:'rgba(0, 21, 41, 0.7)', marginLeft: '50px'}} 
+                            animated
+                        >
+                            <Link to={`/branches`}>
+                                <Button.Content 
+                                    visible 
+                                    style={{color: 'white', fontSize:'18px', padding:'5px 0 5px 0'}}
+                                >
+                                    Branchs
+                                </Button.Content>
+                                <Button.Content hidden>
+                                    <Icon  
+                                        size='large' 
+                                        style={{color:'white'}} 
+                                        name='arrow left' 
+                                    />
+                                </Button.Content>
+                            </Link>
+                        </Button>
                     </Segment>
                 </RenderStyle>
             </Fragment>

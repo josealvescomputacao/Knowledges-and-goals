@@ -1,6 +1,8 @@
-import React, {Component, Fragment} from 'react'
+import React, { Component, Fragment } from 'react'
 import { Carousel} from 'antd'
 import { Image } from 'semantic-ui-react'
+
+import { carousel, titleImage, Footer } from './Home.css'
 
 class ScreensHome extends Component{
 
@@ -10,7 +12,7 @@ class ScreensHome extends Component{
             '/images/goalCreated.jpg', 
             '/images/filterGoal.jpg',
             '/images/updateMainGoalOrCreateAnotherSubGoal.jpg',
-            '/images/updateSubgoal.jpg',
+            '/images/updateSubGoal.jpg',
             '/images/branches.jpg', 
             '/images/createTopic.jpg', 
             '/images/topics.jpg', 
@@ -31,7 +33,7 @@ class ScreensHome extends Component{
         ]
         return(
             <Fragment>
-                <div style={{width: '75vw', borderRadius:'10px', margin:'35px auto 0 auto', boxShadow:'10px 10px 20px 10px rgba(0,0,0,0.99)'}}>
+                <div style={carousel}>
                     <Carousel 
                         pauseOnHover={false} 
                         pauseOnDotsHover={true} 
@@ -41,7 +43,7 @@ class ScreensHome extends Component{
                     >
                         {urls.map((value, key) => 
                             <div key={key}>
-                                <h4 style={{color:'white', marginBottom:'0', textAlign:'center'}}>{titles[key]}</h4>
+                                <h4 style={titleImage}>{titles[key]}</h4>
                                 <Image
                                     src={value}
                                     fluid
@@ -50,12 +52,10 @@ class ScreensHome extends Component{
                             </div>
                         )}
                     </Carousel>
-                </div>
-                <div style={{height:'80px', marginTop:'10px', padding:'5px', background:'rgba(0, 21, 41, 0.8)', boxShadow:'0px -15px 25px 5px rgba(0,0,0,0.9)', textAlign:'center', zIndex:'2', bottom:'0'}}>
-                    <h3>
-                        <span style={{color:'white'}}>Made by:</span>
-                        <span style={{color:'blue'}}> José Alves Júnior</span> 
-                    </h3>
+                    <Footer style={{textAlign: 'center'}}>
+                        <span style={{color:'blue'}}>Developed by:</span>
+                        <span style={{color:'white'}}> José Alves Júnior</span> 
+                    </Footer>
                 </div>
             </Fragment>
         )

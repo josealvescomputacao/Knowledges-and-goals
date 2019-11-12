@@ -1,6 +1,6 @@
 import { put, call } from 'redux-saga/effects'
 import ActionCreator from '../actionCreators'
-import {providers} from './../../firebase'
+import { providers } from './../../firebase'
 import axios from 'axios'
 
 export function* login(auth, database, action){

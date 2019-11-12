@@ -1,11 +1,11 @@
-import { takeLatest, all, put} from 'redux-saga/effects'
+import { takeLatest, all, put } from 'redux-saga/effects'
 import ActionCreator, { Types } from '../actionCreators'
 
-import {auth, database, storage} from '../../firebase'
+import { auth, database, storage } from '../../firebase'
 
-import {isAuth, login, sendEmail, createProfile, updateSetting, removeProfile, destroyAuth } from './auth'
-import {getBranches, createBranch, updateBranch, deleteBranch, getTopics, createTopic, updateTopic, deleteTopic } from './branch'
-import {getGoals, createGoal, updateGoal, deleteGoal} from './goal'
+import { isAuth, login, sendEmail, createProfile, updateSetting, removeProfile, destroyAuth } from './auth'
+import { getBranches, createBranch, updateBranch, deleteBranch, getTopics, createTopic, updateTopic, deleteTopic } from './branch'
+import { getGoals, createGoal, updateGoal, deleteGoal } from './goal'
 
 
 export default function* rootSaga(){
@@ -27,8 +27,8 @@ export default function* rootSaga(){
         
         takeLatest(Types.GET_BRANCHES_REQUEST, getBranches, database),
         takeLatest(Types.CREATE_BRANCH_REQUEST, createBranch, database),
-        takeLatest(Types.UPDATE_BRANCH_REQUEST, updateBranch, database),    
-        takeLatest(Types.DELETE_BRANCH_REQUEST, deleteBranch, database),
+        takeLatest(Types.UPDATE_BRANCH_REQUEST, updateBranch, database, storage),    
+        takeLatest(Types.DELETE_BRANCH_REQUEST, deleteBranch, database, storage),
 
         takeLatest(Types.GET_TOPICS_REQUEST, getTopics, database),
         takeLatest(Types.CREATE_TOPIC_REQUEST, createTopic, auth, database, storage),

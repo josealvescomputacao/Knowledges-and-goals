@@ -1,87 +1,14 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import ActionCreator from './../redux/actionCreators'
-import {Grid, Button, Icon, Form, Dimmer, Loader} from 'semantic-ui-react'
+import { Grid, Button, Icon, Form, Dimmer, Loader } from 'semantic-ui-react'
 import { notification } from 'antd'
-import styled from 'styled-components'
+
 
 import BodyAccount from './AccountStyle'
+import { RenderStyle } from './Register.css.js'
 
-const RenderStyle = styled.div`
-    @media (min-width: 320px)  { 
-            
-        #title{
-            position:relative
-            top: 50px
-            text-align: center
-        }
-        h1{
-            font-size: 26px
-        }
-    }
-    @media (max-width: 512px)  { 
-            
-        #calendar{
-            margin-top: 20px
-        }
-    }
-    @media (min-width: 992px){ 
-        
-        #title{
-            top: 0
-            position: absolute
-        }
-        h1{
-            font-size: 32px
-        }
 
-    }
-    #fields{ 
-        box-shadow: 10px 10px 10px 0px
-        border-radius: 5px 
-        z-index: 1
-        transition: all 0.5s ease-in-out
-        top:-40px
-    }
-    #fields:focus{
-        box-shadow: 0 0 0 0
-        border-radius: 5px 
-        z-index: 1
-        top:-35px
-    }
-
-    #fieldLanguage{ 
-        box-shadow: 10px 10px 10px 0px
-        border-radius: 5px 
-        z-index: 1
-        transition: all 0.5s ease-in-out
-        top:-35px
-    }
-    #fieldLanguage:focus{
-        box-shadow: 0 0 0 0
-        top:-34px
-        z-index: 1
-    }
-
-    #fieldPassword{ 
-        box-shadow: 5px 5px 10px 0px
-        border-radius: 5px 
-        transition: all 0.5s ease-in-out
-        top:-40px
-    }
-    #fieldPassword:focus{
-        box-shadow: 0 0 0 0
-        top:-35px
-    }
-
-    #boxButton{
-        transition: all 0.5s ease-in-out
-        box-shadow: 10px 10px 10px 0px rgba(0,0,0,0.99)    
-    }
-    #boxButton:hover{
-        box-shadow: 0 0 0 0 rgba(0,0,0,0.99) 
-    }
-`
 
 class ScreensRegister extends Component{
 
@@ -117,7 +44,7 @@ class ScreensRegister extends Component{
         if (field === 'passwordConfirm'){
             if (form.password.length < 6){
                 this.setState({password:'', passwordConfirm: ''})
-                this.props.error('The password needs has to more than 6 characters!')  
+                this.props.error('The password must be longer than 6 characters!')  
                 return
             }  
             const length = form[field].length-1
@@ -140,7 +67,7 @@ class ScreensRegister extends Component{
                 this.props.error('Write your name!')
                 return           
             }else if (this.state.name.length > 0 && this.state.name.length < 3){
-                this.props.error('The name needs has to more than 2 characters!')
+                this.props.error('The name must be longer than 2 characters!')
                 return           
             }
         }
@@ -184,7 +111,9 @@ class ScreensRegister extends Component{
                         <Loader size='big'>Loading</Loader>
                     </Dimmer>            
                 }
-                {this.props.auth.error && !this.state.isNotified && this.openNotificationWithIcon('error')(this.props.auth.errorMessage)}
+                {this.props.auth.error && !this.state.isNotified && 
+                    this.openNotificationWithIcon('error')(this.props.auth.errorMessage)
+                }
                 <RenderStyle>
                     <Grid>  
                         <Grid.Row 

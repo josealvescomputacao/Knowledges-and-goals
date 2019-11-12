@@ -1,5 +1,5 @@
 import React from 'react'
-import {Button, Modal, Icon} from 'semantic-ui-react'
+import { Button, Modal, Icon } from 'semantic-ui-react'
 import InputMoment from 'input-moment'
 import 'input-moment/dist/input-moment.css'
 
@@ -57,6 +57,4 @@ export const Calendar = ({modalOpen, handleOpen, handleClose, changeDate, moment
             </Modal.Content>           
         </Modal>
     )
-        
-    
 }

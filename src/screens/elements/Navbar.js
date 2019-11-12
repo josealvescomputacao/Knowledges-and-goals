@@ -1,51 +1,11 @@
-import React, {Component, Fragment} from 'react'
-import {Link, Redirect} from 'react-router-dom'
-import {connect} from 'react-redux'
+import React, { Component, Fragment } from 'react'
+import { Link, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 import ActionCreator from '../../redux/actionCreators'
-import {Menu, Segment, Button ,Container, Icon} from 'semantic-ui-react'
+import { Menu, Segment, Button ,Container, Icon } from 'semantic-ui-react'
 import { notification } from 'antd'
 
-import styled from 'styled-components'
-
-const RenderStyle = styled.div`
-  @media (max-width: 768px)  { 
-    #menu{
-      position: absolute
-      width:200px
-      flex-direction: column
-      left:0px
-      transition: all 1s ease-in-out
-      top: ${props => props.displays ? '35px' : '-250px'}
-      background: #001529
-      opacity: 0.9
-      z-index: 1
-    } 
-    #bars{
-      display: block
-      margin: 0 auto 0 auto
-      cursor: pointer
-      color: white
-    }
-    .links{
-      width: 100%
-    }
-  }
-
-  @media (min-width: 768px)  { 
-    #bars{
-      display: none
-    }   
-    #menu{
-      z-index:1
-      width: 100vw
-      padding: 0px 80px 0 0
-      postion: absolute
-      margin-top: 0
-    }   
-
-  }
-
-`
+import { RenderStyle } from './Navbar.css.js'
 
 class Navbar extends Component {
     state = { 
@@ -91,16 +51,15 @@ class Navbar extends Component {
                 <Redirect to='/'/>
             }
             {this.props.auth.isAuth && this.props.auth.afterLoggedIn && !this.state.isNotified && 
-              this.openNotificationWithIcon('success')(`Welcome ${this.props.auth.user.name ? 
-                this.props.auth.user.name 
-                : 
-                this.props.auth.user.email}!`
+              this.openNotificationWithIcon('success')(`Welcome ${this.props.auth.user.name 
+                ? this.props.auth.user.name 
+                : this.props.auth.user.email}!`
               )
             }
             {this.props.auth.isAuth && this.props.auth.afterLoggedIn && 
               <Redirect to={`/branches`}/>
             }
-            <Segment style={{background:'rgba(0, 21, 41, 0.9)', marginBottom: '0px', height:'75px', zIndex:'3', boxShadow:'0px 15px 25px 5px rgba(0,0,0,0.9)'}}>
+            <Segment style={{background:'rgba(0, 21, 41, 0.9)', marginBottom: '0px', minHeight:'5vh', zIndex:'3', boxShadow:'0px 15px 25px 5px rgba(0,0,0,0.9)'}}>
               <Icon 
                 onClick={() => this.display()} 
                 id='bars' 
