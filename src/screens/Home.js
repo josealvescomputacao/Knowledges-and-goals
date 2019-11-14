@@ -52,11 +52,11 @@ class ScreensHome extends Component{
                             </div>
                         )}
                     </Carousel>
-                    <Footer style={{textAlign: 'center'}}>
-                        <span style={{color:'blue'}}>Developed by:</span>
-                        <span style={{color:'white'}}> José Alves Júnior</span> 
-                    </Footer>
                 </div>
+                <Footer style={{zIndex:'1', position: 'absolute'}}>
+                    <span style={{color:'blue'}}>Developed by:</span>
+                    <span style={{color:'white'}}> José Alves Júnior</span> 
+                </Footer>
             </Fragment>
         )
     }
